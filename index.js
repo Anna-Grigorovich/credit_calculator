@@ -65,10 +65,10 @@ const calculatorForm = document.getElementById('calculator-form');
 calculatorForm.addEventListener('submit', function (e) {
   e.preventDefault();
   alert('Кредит отримано!');
-  loanAmountInput.value = 1000; // Установите начальное значение, которое вы хотите
+  loanAmountInput.value = 1000;
   loanAmountSlider.value = 1000;
-  loanPeriodInput.value = 7; // Установите начальное значение, которое вы хотите
+  loanPeriodInput.value = 7;
   loanPeriodSlider.value = 7;
 
-  updateRepayment(); // Обновите суммы с учетом сброшенных значений
+  updateRepayment();
 });
