@@ -32,30 +32,45 @@ function updateRepayment() {
   const loanAmount = parseFloat(loanAmountInput.value);
   const loanPeriod = parseInt(loanPeriodInput.value);
 
-  if (isNaN(loanAmount) || isNaN(loanPeriod)) {
-    dailyRepayment.textContent = '0 грн';
-    totalRepayment.textContent = '0 грн';
+  const loanAmountError = document.getElementById('loan-amount-error');
+  const loanPeriodError = document.getElementById('loan-period-error');
+
+  if (isNaN(loanAmount) || loanAmount < 1000 || loanAmount > 50000) {
+    loanAmountError.textContent =
+      'Сума кредиту повинна бути від 1000 до 50000 грн';
     calculateButton.disabled = true;
   } else {
-    const dailyRepaymentValue = (
+    loanAmountError.textContent = '';
+  }
+
+  if (isNaN(loanPeriod) || loanPeriod < 7 || loanPeriod > 60) {
+    loanPeriodError.textContent =
+      'Період погашення повинен бути від 7 до 60 днів';
+    calculateButton.disabled = true;
+  } else {
+    loanPeriodError.textContent = '';
+  }
+
+  if (
+    !isNaN(loanAmount) &&
+    !isNaN(loanPeriod) &&
+    loanAmount >= 1000 &&
+    loanAmount <= 50000 &&
+    loanPeriod >= 7 &&
+    loanPeriod <= 60
+  ) {
+    const dailyRepaymentValue =
       (loanAmount + loanAmount * (interestRate / 100) * loanPeriod) /
-      loanPeriod
-    ).toFixed(2);
-    const totalRepaymentValue = (dailyRepaymentValue * loanPeriod).toFixed(2);
+      loanPeriod;
+    const totalRepaymentValue = dailyRepaymentValue * loanPeriod;
 
-    dailyRepayment.textContent = dailyRepaymentValue + ' грн';
-    totalRepayment.textContent = totalRepaymentValue + ' грн';
+    dailyRepayment.textContent = dailyRepaymentValue.toFixed(2) + ' грн';
+    totalRepayment.textContent = totalRepaymentValue.toFixed(2) + ' грн';
 
-    if (
-      loanAmount >= 1000 &&
-      loanAmount <= 50000 &&
-      loanPeriod >= 7 &&
-      loanPeriod <= 60
-    ) {
-      calculateButton.disabled = false;
-    } else {
-      calculateButton.disabled = true;
-    }
+    calculateButton.disabled = false;
+  } else {
+    dailyRepayment.textContent = '0 грн';
+    totalRepayment.textContent = '0 грн';
   }
 }
 
